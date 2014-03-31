@@ -19,7 +19,6 @@
 #
 # Everything in this directory will become public
 
-
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 ifeq ($(USE_SVELTE_KERNEL),true)
 LOCAL_KERNEL := device/lge/hammerhead_svelte-kernel/zImage-dtb
@@ -31,14 +30,13 @@ else
 LOCAL_KERNEL := device/lge/hammerhead-kernel/zImage-dtb
 endif
 
-endif
 else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
-
 PRODUCT_COPY_FILES := \
     $(LOCAL_KERNEL):kernel
+endif
 
 # ro.product.first_api_level indicates the first api level the device has commercially launched on.
 PRODUCT_PROPERTY_OVERRIDES += \
