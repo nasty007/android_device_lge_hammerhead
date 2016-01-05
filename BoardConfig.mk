@@ -138,7 +138,7 @@ USE_DEVICE_SPECIFIC_CAMERA:= true
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS:= true
 
 ifeq ($(USE_SVELTE_KERNEL),true)
-MALLOC_IMPL := dlmalloc
+MALLOC_SVELTE := true
 endif
 
 -include vendor/lge/hammerhead/BoardConfigVendor.mk
