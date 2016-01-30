@@ -353,9 +353,12 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 # Camera configuration
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     camera.disable_zsl_mode=1
-
 PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.codecremote=false
+
+# Supports Camera new API2
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.camera.HAL3.enabled=1
 
 # Input resampling configuration
 PRODUCT_PROPERTY_OVERRIDES += \
