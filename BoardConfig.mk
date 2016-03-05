@@ -123,6 +123,10 @@ ifeq ($(USE_SVELTE_KERNEL),true)
 MALLOC_IMPL := dlmalloc
 endif
 
+USE_CLANG_PLATFORM_BUILD := true
+
+TARGET_FS_CONFIG_GEN += device/lge/hammerhead/config.fs
+
 -include vendor/lge/hammerhead/BoardConfigVendor.mk
 
 # Enable Minikin text layout engine (will be the default soon)
