@@ -1,29 +1,36 @@
 #!/bin/bash
 #
-# Copyright (C) 2013, 2014 The CyanogenMod Project
+# Copyright (C) 2016 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-# Extract DEX file from inside Android Runtime OAT file using radare2
-# Copyright (C) 2013 Pau Oliva (@pof)
-#
-# https://github.com/poliva/random-scripts/blob/master/android/oat2dex.sh
-#
 
 set -e
 
 VENDOR=lge
 DEVICE=hammerhead
+
+# Load extractutils and do some sanity checks
+MY_DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
+
+CM_ROOT="$MY_DIR"/../../..
+
+HELPER="$CM_ROOT"/vendor/ev/build/tools/extract_utils.sh
+if [ ! -f "$HELPER" ]; then
+    echo "Unable to find helper script at $HELPER"
+    exit 1
+fi
+. "$HELPER"
 
 if [ $# -eq 0 ]; then
   SRC=adb
@@ -41,56 +48,9 @@ else
   fi
 fi
 
+# Initialize the helper
+setup_vendor "$DEVICE" "$VENDOR" "$CM_ROOT"
 
-oat2dex()
-{
-    OFILE="$1"
+extract "$MY_DIR"/proprietary-blobs.txt "$SRC"
 
-    OAT="`dirname $OFILE`/arm/`basename $OFILE ."${OFILE##*.}"`.odex"
-    if [ ! -e $OAT ]; then
-        return 0
-    fi
-
-    HIT=`r2 -q -c '/ dex\n035' "$OAT" 2>/dev/null | grep hit0_0 | awk '{print $1}'`
-    if [ -z "$HIT" ]; then
-        echo "ERROR: Can't find dex header of `basename $OFILE`"
-        return 1
-    fi
-
-    SIZE=`r2 -e scr.color=false -q -c "px 4 @$HIT+32" $OAT 2>/dev/null | tail -n 1 | awk '{print $2 $3}' | sed -e "s/^/0x/" | rax2 -e`
-    r2 -q -c "pr $SIZE @$HIT > /tmp/classes.dex" "$OAT" 2>/dev/null
-    if [ $? -ne 0 ]; then
-        echo "ERROR: Something went wrong in `basename $OFILE`"
-    fi
-}
-
-BASE=../../../vendor/$VENDOR/$DEVICE/proprietary
-rm -rf $BASE/*
-
-
-for FILE in `cat proprietary-blobs.txt | grep -v ^# | grep -v ^$ | sed -e 's#^/system/##g' | sed -e "s#^-/system/##g"`; do
-    DIR=`dirname $FILE`
-    if [ ! -d $BASE/$DIR ]; then
-        mkdir -p $BASE/$DIR
-    fi
-
-    if [ "$SRC" = "adb" ]; then
-        adb pull /system/$FILE $BASE/$FILE
-        if [ "${FILE##*.}" = "apk" ] || [ "${FILE##*.}" = "jar" ]; then
-            oat2dex /system/$FILE
-        fi
-    else
-        cp $SRC/system/$FILE $BASE/$FILE
-        if [ "${FILE##*.}" = "apk" ] || [ "${FILE##*.}" = "jar" ]; then
-            oat2dex $SRC/system/$FILE
-        fi
-    fi
-
-    if [ -e /tmp/classes.dex ]; then
-        zip -gjq $BASE/$FILE /tmp/classes.dex
-        rm /tmp/classes.dex
-    fi
-
-done
-
-./setup-makefiles.sh
+"$MY_DIR"/setup-makefiles.sh
