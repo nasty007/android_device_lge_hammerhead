@@ -1,4 +1,5 @@
 allow platform_app time:unix_stream_socket connectto;
+allow platform_app nfc_service:service_manager find;
 
 userdebug_or_eng(`
   # qxdmlogger access to /data/diag_logs.
