@@ -215,7 +215,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     nfc_nci.bcm2079x.default \
     NfcNci \
-    Tag
+    Tag \
+    android.hardware.nfc@1.0-impl
+
+ifeq ($(ENABLE_TREBLE), true)
+PRODUCT_PACKAGES += \
+    android.hardware.nfc@1.0-service
+endif
 
 PRODUCT_PACKAGES += \
     libion
