@@ -252,7 +252,8 @@ PRODUCT_PACKAGES += \
     libion
 
 PRODUCT_PACKAGES += \
-    lights.hammerhead
+    lights.hammerhead \
+    android.hardware.light@2.0-impl
 
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
