@@ -32,6 +32,3 @@ PRODUCT_RESTRICT_VENDOR_FILES := true
 
 $(call inherit-product, device/lge/hammerhead/device.mk)
 $(call inherit-product-if-exists, vendor/lge/hammerhead/device-vendor.mk)
-
-# fix video recording
-TARGET_USES_LEGACY_CAMHAL := false
