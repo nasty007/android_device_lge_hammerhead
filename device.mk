@@ -127,6 +127,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/lge/hammerhead/thermal-engine-8974.conf:system/etc/thermal-engine-8974.conf
 
+PRODUCT_PACKAGES += \
+    android.hardware.thermal@1.0-impl
+
 # Bluetooth HAL
 PRODUCT_PACKAGES += \
     libbt-vendor \
