@@ -105,6 +105,8 @@ ifneq ($(filter hammerhead_fp aosp_hammerhead_fp,$(TARGET_PRODUCT)),)
 BOARD_HAS_FINGERPRINT_FPC := true
 endif
 
+# Charger
+BOARD_HEALTHD_CUSTOM_CHARGER_RES := device/lge/hammerhead/charger/images
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
 # Charger
