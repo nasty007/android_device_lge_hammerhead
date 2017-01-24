@@ -107,6 +107,9 @@ endif
 
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
+# Charger
+BOARD_HAL_STATIC_LIBRARIES += libhealthd.msm8974
+
 TARGET_RECOVERY_FSTAB = device/lge/hammerhead/fstab.hammerhead
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/lge/hammerhead
