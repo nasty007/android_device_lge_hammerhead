@@ -62,6 +62,10 @@ WIFI_DRIVER_FW_PATH_STA     := "/vendor/firmware/fw_bcmdhd.bin"
 
 BOARD_USES_SECURE_SERVICES := true
 
+# Use SurfaceFlinger HWC 2On1 Adaptor
+TARGET_USES_HWC2 := true
+TARGET_USES_HWC2ON1ADAPTER := true
+
 TARGET_NO_RADIOIMAGE := true
 TARGET_BOARD_PLATFORM := msm8974
 TARGET_BOOTLOADER_BOARD_NAME := hammerhead
