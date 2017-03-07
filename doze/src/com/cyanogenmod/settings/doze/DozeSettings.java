@@ -52,10 +52,6 @@ public class DozeSettings extends PreferenceActivity implements OnPreferenceChan
         boolean dozeEnabled = Utils.isDozeEnabled(mContext);
 
         // get shared preference
-        mPreferences = mContext.getSharedPreferences("doze_settings", Activity.MODE_PRIVATE);
-        if (savedInstanceState == null && !mPreferences.getBoolean("first_help_shown", false)) {
-            showHelp();
-        }
 
         mAmbientDisplayPreference =
             (SwitchPreference) findPreference(Utils.AMBIENT_DISPLAY_KEY);
@@ -115,34 +111,5 @@ public class DozeSettings extends PreferenceActivity implements OnPreferenceChan
             return true;
         }
         return false;
-    }
-
-    public static class HelpDialogFragment extends DialogFragment {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            return new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.doze_settings_help_title)
-                    .setMessage(R.string.doze_settings_help_text)
-                    .setNegativeButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    })
-                    .create();
-        }
-
-        @Override
-        public void onCancel(DialogInterface dialog) {
-            getActivity().getSharedPreferences("doze_settings", Activity.MODE_PRIVATE)
-                    .edit()
-                    .putBoolean("first_help_shown", true)
-                    .commit();
-        }
-    }
-
-    private void showHelp() {
-        HelpDialogFragment fragment = new HelpDialogFragment();
-        fragment.show(getFragmentManager(), "help_dialog");
     }
 }
