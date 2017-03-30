@@ -29,6 +29,10 @@ TARGET_SELINUX_CONFIG := unicornblood_defconfig
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.product.first_api_level=19
 
+# Vendor Interface Manifest
+PRODUCT_COPY_FILES += \
+    device/lge/hammerhead/manifest.xml:system/vendor/manifest.xml
+
 PRODUCT_COPY_FILES += \
     device/lge/hammerhead/init.hammerhead.rc:root/init.hammerhead.rc \
     device/lge/hammerhead/init.hammerhead.usb.rc:root/init.hammerhead.usb.rc \
@@ -143,6 +147,10 @@ PRODUCT_PACKAGES += \
     memtrack.msm8974 \
     libqdutils \
     libqdMetaData
+
+PRODUCT_PACKAGES += \
+    android.hardware.graphics.allocator@2.0-impl \
+    android.hardware.graphics.mapper@2.0-impl
 
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
